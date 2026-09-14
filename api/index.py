@@ -1,12 +1,13 @@
 import sys
 import os
+from pathlib import Path
 
-# Include backend path in sys.path for Vercel Serverless environment
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-backend_dir = os.path.join(root_dir, "backend")
-if root_dir not in sys.path:
-    sys.path.insert(0, root_dir)
-if backend_dir not in sys.path:
-    sys.path.insert(0, backend_dir)
+# Add backend to Python path for Vercel
+root_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(root_dir))
+sys.path.insert(0, str(root_dir / "backend"))
 
+# Import the FastAPI app
 from backend.app.main import app
+
+# Vercel needs the app exported as handler
